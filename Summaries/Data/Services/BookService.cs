@@ -6,9 +6,12 @@ namespace Summaries.Data
     public class BookService : IBookService
     {
         public void AddBook(Book newBook)
-        {      
-          
-            Data.Books.Add(newBook);
+        {                
+            var existingBook = Data.Books.FirstOrDefault(b => b.Id == newBook.Id); 
+            if (existingBook == null)
+            {
+                 Data.Books.Add(newBook);
+            }           
         }
         public void DeleteBook(int id)
         {
