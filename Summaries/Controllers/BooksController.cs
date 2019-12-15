@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Summaries.Data;
+using System;
 
 namespace Summaries.Controllers
 {
@@ -16,8 +17,20 @@ namespace Summaries.Controllers
         [HttpPost("AddBook")]
         public IActionResult AddBook([FromBody]Book book)
         {
-            _service.AddBook(book);
-            return Ok("Added");
+            try
+            {
+                if(book.Author != null && book.Title != null && book.Description != null)
+                {
+                    _service.AddBook(book);
+                    return Ok();
+                }      
+                return BadRequest("Book was not added");
+            }
+            catch (Exception ex )
+            {
+                return BadRequest(ex.Message);
+                throw;
+            }          
         }
 
         //Read all books
